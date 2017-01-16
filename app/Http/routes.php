@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// 后台显示
+Route::get('/admin','AdminController@index');
+
+// 用户管理模块
+Route::controller('/admin/user','UserController');
