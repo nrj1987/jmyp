@@ -32,6 +32,7 @@
 <!-- Theme Stylesheet -->
 <link rel="stylesheet" type="text/css" href="/ad/css/mws-theme.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/ad/css/themer.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/ad/css/my.css" media="screen">
 
 <title>JMYP 后台</title>
 
@@ -288,6 +289,34 @@
         
         	<!-- Inner Container Start -->
             <div class="container">
+                <!-- 将报错信息提取出来作为公共部分 -->
+                <!-- 报错信息的设置 -->
+                @if (count($errors) > 0)
+                <div class="mws-form-message error">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <!-- 添加失败的设置 -->
+                @if(!empty(session('error')))
+                <div class="mws-form-message error">
+                    <ul>
+                        <li>{{session('error')}}</li>
+                    </ul>
+                </div>
+                @endif
+                <!-- 添加成功的设置 -->
+                @if(!empty(session('success')))
+                <div class="mws-form-message success">
+                    <ul>
+                        <li>{{session('success')}}</li>
+                    </ul>
+                </div>
+                @endif
+
                 @section('con')
                 @show
             	<!-- Statistics Button Container -->

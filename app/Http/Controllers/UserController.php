@@ -40,27 +40,45 @@ class UserController extends Controller
         // 2.数据处理
         $data=$request->except(['_token','repass']);
         $data['password']=Hash::make($data['password']);
+        // Hash::make()加密 Hash::check()解密
         $data['token']=str_random(50);
         $data['status']=0;
         // 3.数据插入
         $res=DB::table('user')->insert($data);
         if($res){
-        	echo '用户浏览页';
-        	// return redirect('/admin/user/index');
+        	// echo '用户浏览页';
+        	return redirect('/admin/user/index')->with('success','添加成功');
         }else{
-        	return back();
+        	return back()->with('error','添加失败');
         }
 
     }
 
-    public function getIndex(){
-    	$data=DB::table('user')->get();
+    public function getIndex(Request $request){
+    	$data=DB::table('user')->where(function($query) use($request){
+    		if($request->input('keyword')){
+    			$query->where('name','like','%'.$request->input('keyword').'%')
+    				  ->orWhere('email','like','%'.$request->input('keyword').'%');
+    		}
+    	})->paginate($request->input('num',5));
     	// dd($data);
-    	return view('admin.user.index',['list'=>$data]);
+    	return view('admin.user.index',['list'=>$data,'request'=>$request->all()]);
     }
 
-    public function getEdit(){
-    	echo '修改页面';
+    public function getEdit($id){
+    	$data=DB::table('user')->where('id',$id)->first();
+    	// dd($data);
+    	return view('admin.user.edit',['vo'=>$data]);
+    	// echo '修改页面';
+    }
+
+    // 执行修改页面
+    public function postUpdate(Request $request){
+    	// echo '执行修改页面';
+    	$data=$request->except('_token');
+    	dd($data);
+
+
     }
 
     public function getDel(){
