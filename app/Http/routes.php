@@ -20,3 +20,6 @@ Route::get('/admin','AdminController@index');
 
 // 用户管理模块
 Route::controller('/admin/user','UserController');
+
+// 分类管理模块
+Route::controller('/admin/cate','CateController');

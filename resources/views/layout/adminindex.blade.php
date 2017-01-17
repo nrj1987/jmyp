@@ -279,6 +279,14 @@
                            
                         </ul>
                     </li>
+                    <li>
+                        <a href="#"><i class="icon-th"></i>分类管理</a>
+                        <ul>
+                            <li><a href="/admin/cate/add">添加分类</a></li>
+                            <li><a href="/admin/cate/index">分类展示</a></li>
+                           
+                        </ul>
+                    </li>
                     
                 </ul>
             </div>

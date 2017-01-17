@@ -4,16 +4,7 @@
 	<div class="mws-panel-header">
     	<span>用户修改</span>
     </div>
-    <!-- 报错信息的设置 -->
-    @if (count($errors) > 0)
-    <div class="mws-form-message error">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    
     <div class="mws-panel-body no-padding">
     	<form class="mws-form" action="/admin/user/update" method="post">
     	<!-- 为了安全有token -->
@@ -30,14 +21,6 @@
     		</div>
     		<div class="mws-form-inline">
     			<div class="mws-form-row">
-    				<label class="mws-form-label">用户名</label>
-    				<div class="mws-form-item">
-    					<input class="small" type="text" name="username" value="{{$vo['username']}}">
-    				</div>
-    			</div>
-    		</div>
-    		<div class="mws-form-inline">
-    			<div class="mws-form-row">
     				<label class="mws-form-label">邮箱</label>
     				<div class="mws-form-item">
     					<input class="small" type="text" name="email" value="{{$vo['email']}}">
@@ -49,6 +32,18 @@
     				<label class="mws-form-label">手机号码</label>
     				<div class="mws-form-item">
     					<input class="small" type="text" name="phone" value="{{$vo['phone']}}">
+    				</div>
+    			</div>
+    		</div>
+    		<div class="mws-form-inline">
+    			<div class="mws-form-row">
+    				<label class="mws-form-label">状态</label>
+    				<div class="mws-form-item">
+    					<!-- large是全屏的长度 small是跟上面的样式一致 -->
+						<select name="status" class="small" id="">
+							<option value="0" @if($vo['status']=='0') selected @endif>禁用</option>
+							<option value="1" @if($vo['status']=='1') selected @endif>启用</option>
+						</select>
     				</div>
     			</div>
     		</div>

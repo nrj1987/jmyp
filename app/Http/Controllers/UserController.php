@@ -61,6 +61,7 @@ class UserController extends Controller
     				  ->orWhere('email','like','%'.$request->input('keyword').'%');
     		}
     	})->paginate($request->input('num',5));
+    	// dd($request->all());
     	// dd($data);
     	return view('admin.user.index',['list'=>$data,'request'=>$request->all()]);
     }
@@ -75,13 +76,40 @@ class UserController extends Controller
     // 执行修改页面
     public function postUpdate(Request $request){
     	// echo '执行修改页面';
-    	$data=$request->except('_token');
-    	dd($data);
+    	$this->validate($request,[
+        	'name'=>'required',
+        	'email'=>'required|email',
+        	'phone'=>'required|regex:[^1\d{10}$]',
+        	'status'=>'required'
+
+        ],[
+        	'name.required'=>'姓名必须填写',
+        	'email.required'=>'邮箱必须填写',
+        	'email.email'=>'邮箱格式不正确',
+        	'phone.required'=>'手机号码必须填写',
+        	'phone.regex'=>'手机号码格式不正确',
+        	'status.required'=>'状态必须指定'
+
+        ]);
+    	$data=$request->except('_token','id');
+    	// dd($data);
+    	$res=DB::table('user')->where('id',$request->input('id'))->update($data);
+    	if($res){
+    		return redirect('/admin/user/index')->with('success','修改成功');
+    	}else{
+    		return back()->with('error','修改失败');
+    	}
 
 
     }
 
-    public function getDel(){
-    	echo '删除页面';
+    public function getDel($id){
+    	// echo '删除页面';
+    	$res=DB::table('user')->where('id',$id)->delete();
+    	if($res){
+    		return redirect('/admin/user/index')->with('success','删除成功');
+    	}else{
+    		return back()->with('error','删除失败');
+    	}
     }
 }
